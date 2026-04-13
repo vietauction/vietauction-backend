@@ -1,0 +1,65 @@
+package vn.webapp.backend.auction.repository;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import vn.webapp.backend.auction.enums.AuctionState;
+import vn.webapp.backend.auction.model.Auction;
+
+import java.sql.Timestamp;
+import java.util.List;
+
+public interface AuctionRepository extends JpaRepository<Auction, Integer> {
+
+    @Query("SELECT a FROM Auction a WHERE a.startDate >= :startday AND a.startDate <= :endday AND a.state <> 'DELETED'")
+    Page<Auction> findAuctionSortByBetweenStartDayAndEndDay(@Param("startday") Timestamp startday, @Param("endday") Timestamp endday, Pageable pageable);
+
+    @Query("SELECT a FROM Auction a WHERE :auctionName = '' OR a.name LIKE %:auctionName%")
+    List<Auction> findAuctionByNameContaining(@Param("auctionName") String auctionName);
+
+    @Query("SELECT a FROM Auction a WHERE (:auctionState IS NULL AND a.state <> 'DELETED') OR a.state = :auctionState")
+    List<Auction> findByState(@Param("auctionState") AuctionState auctionState);
+
+    @Query("SELECT a FROM Auction a WHERE ((:auctionState IS NULL AND a.state <> 'DELETED') OR (a.state = :auctionState)) AND (:auctionName IS NULL OR a.name LIKE %:auctionName%) ORDER BY a.state DESC")
+    List<Auction> findByState(@Param("auctionState") AuctionState auctionState, @Param("auctionName") String auctionName);
+
+    @Query("SELECT a FROM Auction a WHERE " +
+            "(:auctionState IS NULL OR a.state = :auctionState) " +
+            "AND (:categoryId = 0 OR a.jewelry.category.id = :categoryId) " +
+            "AND (:auctionName IS NULL OR a.name LIKE %:auctionName%) ORDER BY a.state DESC")
+    Page<Auction> findByStateAndCategoryNotDeletedOrEmptyState(
+            @Param("auctionState") AuctionState auctionState,
+            @Param("auctionName") String auctionName,
+            Pageable pageable,
+            @Param("categoryId") Integer categoryId
+    );
+
+    @Query("SELECT a FROM Auction a WHERE a.user.id = :staff_id AND (:auctionName IS NULL OR a.name LIKE %:auctionName%)")
+    Page<Auction> findByStaffID(@Param("staff_id") Integer staff_id, @Param("auctionName") String auctionName, Pageable pageable);
+
+    Page<Auction> findByStateIn(List<AuctionState> states, Pageable pageable);
+
+    @Query("SELECT a FROM Auction a WHERE a.jewelry.id = :jewelryId AND a.state != 'DELETE'")
+    List<Auction> findAuctionByJewelryId(@Param("jewelryId") Integer jewelryId);
+
+    @Query("SELECT COUNT(a) FROM Auction a WHERE a.state = 'FINISHED' AND a.lastPrice IS NULL " +
+            "AND a.id NOT IN (SELECT ah.auction.id FROM AuctionHistory ah)  AND YEAR(a.endDate) = :year AND MONTH(a.endDate) = :month")
+    Integer countAllAuctionsFailed(@Param("month") Integer month, @Param("year") Integer year);
+
+    @Query("SELECT COUNT(a) FROM Auction a WHERE a.state = 'FINISHED' " +
+            "AND a.id IN (SELECT ah.auction.id FROM AuctionHistory ah) AND YEAR(a.endDate) = :year AND MONTH(a.endDate) = :month")
+    Integer countAllAuctionsSuccessful(@Param("month") Integer month, @Param("year") Integer year);
+
+    @Query("SELECT COUNT(a) FROM Auction a " +
+            "WHERE MONTH(a.createDate) = :month AND YEAR(a.createDate) = :year")
+    Integer countAuctionsByMonthAndYear(@Param("month") Integer month, @Param("year") Integer year);
+
+    @Query("SELECT a FROM Auction a " +
+            "WHERE a.lastPrice IS NULL " +
+            "AND a.state = 'FINISHED' " +
+            "AND (:auctionName IS NULL OR a.name LIKE %:auctionName%)")
+    Page<Auction> findAuctionFailedAndName(Pageable pageable, @Param("auctionName") String auctionName);
+
+}
