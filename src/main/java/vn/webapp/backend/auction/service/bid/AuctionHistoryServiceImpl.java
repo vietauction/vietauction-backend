@@ -100,7 +100,7 @@ public class AuctionHistoryServiceImpl implements AuctionHistoryService {
         long minutesDifference = (endDate.getTime() - currentTime.getTime()) / (1000 * 60);
 
         // Thoi gian con lon hon 15p
-        if (auction.getLastPrice() >= auction.getJewelry().getBuyNowPrice() && minutesDifference > 15) {
+        if (auction.getLastPrice() >= auction.getProduct().getBuyNowPrice() && minutesDifference > 15) {
             auction.setEndDateStored(endDate);
             auction.setEndDate(new Timestamp(currentTime.getTime() + 15 * 60 * 1000));
         }
@@ -129,7 +129,7 @@ public class AuctionHistoryServiceImpl implements AuctionHistoryService {
         List<AuctionHistory> lastActiveBids = auctionHistoryRepository.findLastActiveBidByAuctionId(auctionId);
         if (!lastActiveBids.isEmpty()) {
             AuctionHistory lastActiveBid = lastActiveBids.get(0);
-            if (lastActiveBid.getPriceGiven() < auction.getJewelry().getBuyNowPrice() && auction.getEndDateStored() != null) {
+            if (lastActiveBid.getPriceGiven() < auction.getProduct().getBuyNowPrice() && auction.getEndDateStored() != null) {
                 auction.setEndDate(auction.getEndDateStored());
             }
             auction.setLastPrice(lastActiveBid.getPriceGiven());

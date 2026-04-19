@@ -1,6 +1,6 @@
 package vn.webapp.backend.auction.enums;
 
-public enum JewelryMaterial {
+public enum ProductMaterial {
     GOLD("Vàng"),
     SILVER("Bạc"),
     PLATINUM("Bạch kim"),
@@ -8,7 +8,7 @@ public enum JewelryMaterial {
 
     private String displayName;
 
-    JewelryMaterial(String displayName) {
+    ProductMaterial(String displayName) {
         this.displayName = displayName;
     }
 

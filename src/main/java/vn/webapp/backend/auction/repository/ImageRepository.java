@@ -11,13 +11,13 @@ import java.util.List;
 
 
 public interface ImageRepository extends JpaRepository<Image, Integer> {
-    List<Image> findImageByJewelryId(Integer jewelryId);
+    List<Image> findImageByProductId(Integer productId);
 
-    @Query("SELECT i FROM Image i WHERE i.icon = true and i.jewelry.id = :jewelryId")
-    Image findImageByIconAndJewelryId(@Param("jewelryId") Integer jewelryId);
+    @Query("SELECT i FROM Image i WHERE i.icon = true and i.product.id = :productId")
+    Image findImageByIconAndProductId(@Param("productId") Integer productId);
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM Image i WHERE i.jewelry.id = :jewelryId")
-    void deleteByJewelryId(@Param("jewelryId") Integer jewelryId);
+    @Query("DELETE FROM Image i WHERE i.product.id = :productId")
+    void deleteByProductId(@Param("productId") Integer productId);
 }

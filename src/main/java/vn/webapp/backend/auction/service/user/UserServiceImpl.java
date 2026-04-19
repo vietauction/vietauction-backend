@@ -204,7 +204,7 @@ public class UserServiceImpl implements UserService {
         List<User> users = userRepository.findTopUsersByTotalSpent();
         List<UserSpentResponse> list = new ArrayList<>();
         for (User user : users) {
-            Double totalSpent = transactionRepository.getTotalPriceJewelryWonByUsernameAndAlreadyPay(user.getUsername());
+            Double totalSpent = transactionRepository.getTotalPriceProductWonByUsernameAndAlreadyPay(user.getUsername());
             list.add(new UserSpentResponse(
                     user.getId(),
                     user.getAvatar(),

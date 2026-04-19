@@ -5,8 +5,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import vn.webapp.backend.auction.enums.JewelryMaterial;
-import vn.webapp.backend.auction.enums.JewelryState;
+import vn.webapp.backend.auction.enums.ProductMaterial;
+import vn.webapp.backend.auction.enums.ProductState;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -16,8 +16,8 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "jewelry")
-public class Jewelry {
+@Table(name = "product")
+public class Product {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,7 @@ public class Jewelry {
     private String description;
 
     @Enumerated(EnumType.STRING)
-    private JewelryMaterial material;
+    private ProductMaterial material;
 
     @Column(name = "brand", nullable = false)
     private String brand;
@@ -57,9 +57,9 @@ public class Jewelry {
 
     @Column(name = "state", nullable = false)
     @Enumerated(EnumType.STRING)
-    private JewelryState state;
+    private ProductState state;
 
-    @OneToMany(mappedBy = "jewelry", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
@@ -81,9 +81,9 @@ public class Jewelry {
     @JoinColumn(name = "category_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private JewelryCategory category;
+    private ProductCategory category;
 
-    @OneToMany(mappedBy = "jewelry", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore

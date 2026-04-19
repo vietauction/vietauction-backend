@@ -34,7 +34,7 @@ public class RealTimeService {
         auction.setEndDate(newEndDate);
         auctionRepository.save(auction);
 
-        return new BidResponse(auction.getLastPrice(), auction.getJewelry().getBuyNowPrice(), auction.getId(),
+        return new BidResponse(auction.getLastPrice(), auction.getProduct().getBuyNowPrice(), auction.getId(),
                 auction.getEndDate(), bonusTime, user.getUsername());
     }
 

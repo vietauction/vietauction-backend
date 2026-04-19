@@ -1,6 +1,6 @@
 package vn.webapp.backend.auction.dto;
 
-public record JewelryCreateRequest(
+public record ProductCreateRequest(
         String username,
         String name,
         String token,

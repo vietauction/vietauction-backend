@@ -1,12 +1,12 @@
 package vn.webapp.backend.auction.dto;
 
-import vn.webapp.backend.auction.enums.JewelryMaterial;
+import vn.webapp.backend.auction.enums.ProductMaterial;
 
-public record SendJewelryFromUserRequest(
+public record SendProductFromUserRequest(
         Integer userId,
         Double buyNowPrice,
         String description,
-        JewelryMaterial material,
+        ProductMaterial material,
         Double weight,
         String brand,
         String category,

@@ -18,13 +18,13 @@ public class ImageController {
     private final ImageService imageService;
 
     @GetMapping("/get-by-product/{id}")
-    public ResponseEntity<List<Image>> getByJewelry(@PathVariable Integer id)  {
-        return ResponseEntity.ok(imageService.getImagesByJewelryId(id));
+    public ResponseEntity<List<Image>> getByProduct(@PathVariable Integer id)  {
+        return ResponseEntity.ok(imageService.getImagesByProductId(id));
     }
 
     @GetMapping("/get-icon-product/{id}")
-    public ResponseEntity<Image> getIconByJewelry(@PathVariable Integer id)  {
-        return ResponseEntity.ok(imageService.getImageByIconAndJewelryId(id));
+    public ResponseEntity<Image> getIconByProduct(@PathVariable Integer id)  {
+        return ResponseEntity.ok(imageService.getImageByIconAndProductId(id));
     }
 
     @PostMapping("/add-image")
@@ -32,9 +32,9 @@ public class ImageController {
         return ResponseEntity.ok(imageService.createImage(request));
     }
 
-    @DeleteMapping("/product/{jewelryId}")
-    public ResponseEntity<Void> deleteImagesByJewelryId(@PathVariable Integer jewelryId) {
-        imageService.deleteByJewelryId(jewelryId);
+    @DeleteMapping("/product/{productId}")
+    public ResponseEntity<Void> deleteImagesByProductId(@PathVariable Integer productId) {
+        imageService.deleteByProductId(productId);
         return ResponseEntity.noContent().build();
     }
 

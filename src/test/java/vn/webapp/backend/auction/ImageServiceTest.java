@@ -18,29 +18,29 @@ public class ImageServiceTest extends AbstractTestNGSpringContextTests{
     private ImageService imageService;
 
     @Test
-    public void testGetImagesByJewelryIdReturnsWell(){
+    public void testGetImagesByProductIdReturnsWell(){
         // Expected
         Integer id = 1;
 
         //Act
-        List<Image> images = imageService.getImagesByJewelryId(id);
+        List<Image> images = imageService.getImagesByProductId(id);
 
         //Assert
         assertNotNull(images);
         assertFalse(images.isEmpty());
 
         for (Image image : images) {
-            assertEquals(image.getJewelry().getId(), id);
+            assertEquals(image.getProduct().getId(), id);
         }
     }
 
     @Test
-    public void testGetImagesByJewelryIdReturnsNull(){
+    public void testGetImagesByProductIdReturnsNull(){
         // Expected
         Integer nonExistId = 99;
 
         // Act
-        List<Image> images = imageService.getImagesByJewelryId(nonExistId);
+        List<Image> images = imageService.getImagesByProductId(nonExistId);
 
         //Assert
         assertNotNull(images);
@@ -48,12 +48,12 @@ public class ImageServiceTest extends AbstractTestNGSpringContextTests{
     }
 
     @Test
-    public void testGetImageByIconAndJewelryIdReturnsWell(){
+    public void testGetImageByIconAndProductIdReturnsWell(){
         // Expected
         Integer id = 1;
 
         // Act
-        Image image = imageService.getImageByIconAndJewelryId(id);
+        Image image = imageService.getImageByIconAndProductId(id);
 
         // Assert
         assertNotNull(image);
@@ -61,12 +61,12 @@ public class ImageServiceTest extends AbstractTestNGSpringContextTests{
     }
 
 //    @Test CHƯA LÀM TRẢ VỀ
-//    public void testGetImageByIconAndJewelryIdReturnsNull(){
+//    public void testGetImageByIconAndProductIdReturnsNull(){
 //        // Expected
 //        Integer nonExistId = 99;
 //
 //        // Act and Assert
-//        assertThrows(ResourceNotFoundException.class, () -> imageService.getImageByIconAndJewelryId(nonExistId));
+//        assertThrows(ResourceNotFoundException.class, () -> imageService.getImageByIconAndProductId(nonExistId));
 //
 //    }
 }

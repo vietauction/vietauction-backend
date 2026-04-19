@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 public class DashBoardService {
     private final UserRepository userRepository;
     private final AuctionRepository auctionRepository;
-    private final JewelryRepository jewelryRepository;
+    private final ProductRepository productRepository;
     private final AuctionRegistrationRepository auctionRegistrationRepository;
     private final TransactionRepository transactionRepository;
 
@@ -29,11 +29,11 @@ public class DashBoardService {
 
         // Total counts
         Integer totalUser = userRepository.getTotalUser();
-        Integer totalJewelryPricing = jewelryRepository.countAllJewelriesNeedPricing(dashBoardRequest.monthGetJewelry(), dashBoardRequest.yearGetJewelry());
-        Integer totalJewelryPriced = jewelryRepository.countAllJewelriesPriced(dashBoardRequest.monthGetJewelry(), dashBoardRequest.yearGetJewelry());
-        Integer totalJewelryNotHasAuction = jewelryRepository.countAllJewelriesNotHasAuction(dashBoardRequest.monthGetJewelry(), dashBoardRequest.yearGetJewelry());
-        Integer totalJewelryHasAuction = jewelryRepository.countAllJewelriesHasAuction(dashBoardRequest.monthGetJewelry(), dashBoardRequest.yearGetJewelry());
-        Integer totalJewelryHandover = jewelryRepository.countAllJewelriesHandOver(dashBoardRequest.monthGetJewelry(), dashBoardRequest.yearGetJewelry());
+        Integer totalProductPricing = productRepository.countAllJewelriesNeedPricing(dashBoardRequest.monthGetProduct(), dashBoardRequest.yearGetProduct());
+        Integer totalProductPriced = productRepository.countAllJewelriesPriced(dashBoardRequest.monthGetProduct(), dashBoardRequest.yearGetProduct());
+        Integer totalProductNotHasAuction = productRepository.countAllJewelriesNotHasAuction(dashBoardRequest.monthGetProduct(), dashBoardRequest.yearGetProduct());
+        Integer totalProductHasAuction = productRepository.countAllJewelriesHasAuction(dashBoardRequest.monthGetProduct(), dashBoardRequest.yearGetProduct());
+        Integer totalProductHandover = productRepository.countAllJewelriesHandOver(dashBoardRequest.monthGetProduct(), dashBoardRequest.yearGetProduct());
         Integer auctionFailed = auctionRepository.countAllAuctionsFailed(dashBoardRequest.monthGetAuctionFailedAndSuccess(), dashBoardRequest.yearGetAuctionFailedAndSuccess());
         Integer auctionSuccess = auctionRepository.countAllAuctionsSuccessful(dashBoardRequest.monthGetAuctionFailedAndSuccess(), dashBoardRequest.yearGetAuctionFailedAndSuccess());
         Integer totalUsersVerified = userRepository.getTotalUserByState(AccountState.VERIFIED);
@@ -88,11 +88,11 @@ public class DashBoardService {
         return DashBoardResponse.builder()
                 .totalUser(totalUser)
                 .totalRevenueToday(totalRevenueToday + totalRegistrationFeeRevenueToday)
-                .totalJewelryPricing(totalJewelryPricing)
-                .totalJewelryPriced(totalJewelryPriced)
-                .totalJewelryNotHasAuction(totalJewelryNotHasAuction)
-                .totalJewelryHasAuction(totalJewelryHasAuction)
-                .totalJewelryHandover(totalJewelryHandover)
+                .totalProductPricing(totalProductPricing)
+                .totalProductPriced(totalProductPriced)
+                .totalProductNotHasAuction(totalProductNotHasAuction)
+                .totalProductHasAuction(totalProductHasAuction)
+                .totalProductHandover(totalProductHandover)
                 .totalUsersVerified(totalUsersVerified)
                 .totalUsersActive(totalUsersActive)
                 .totalUsersInActive(totalUsersInActive)

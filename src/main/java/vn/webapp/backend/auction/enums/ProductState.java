@@ -1,6 +1,6 @@
 package vn.webapp.backend.auction.enums;
 
-public enum JewelryState {
+public enum ProductState {
     ACTIVE("Đã duyệt"),
     APPROVING("Đang chờ duyệt"),
     HIDDEN("Đã bị ẩn"),
@@ -10,7 +10,7 @@ public enum JewelryState {
 
     private String displayName;
 
-    JewelryState(String displayName) {
+    ProductState(String displayName) {
         this.displayName = displayName;
     }
 

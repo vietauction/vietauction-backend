@@ -101,9 +101,9 @@ public class AuctionController {
     }
 
 
-    @GetMapping("/get-current-by-jewelry/{id}")
-    public ResponseEntity<Auction> getCurrentAuctionByJewelryId(@PathVariable Integer id) {
-        return ResponseEntity.ok(auctionService.getCurrentAuctionByJewelryId(id));
+    @GetMapping("/get-current-by-product/{id}")
+    public ResponseEntity<Auction> getCurrentAuctionByProductId(@PathVariable Integer id) {
+        return ResponseEntity.ok(auctionService.getCurrentAuctionByProductId(id));
     }
 
     @GetMapping("/get-by-staff/{id}")

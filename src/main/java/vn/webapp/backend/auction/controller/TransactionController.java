@@ -78,7 +78,7 @@ public class TransactionController {
 
     @GetMapping("/get-handover")
     public ResponseEntity<Page<Transaction>> getTransactionHandOver(
-            @RequestParam(required = false) String jewelryName,
+            @RequestParam(required = false) String productName,
             @RequestParam(defaultValue = "createDate") String sortBy,
             @RequestParam(defaultValue = "PAYMENT_TO_WINNER") TransactionType type,
             @RequestParam(required = false) String category,
@@ -87,7 +87,7 @@ public class TransactionController {
             @RequestParam(defaultValue = "desc") String sortOrder) {
         Sort.Direction direction = (sortOrder.equalsIgnoreCase("desc")) ? Sort.Direction.DESC : Sort.Direction.ASC;
         Pageable pageable = PageRequest.of(page, size, direction, sortBy);
-        return ResponseEntity.ok(transactionService.getTransactionHandover(type,jewelryName,category,pageable));
+        return ResponseEntity.ok(transactionService.getTransactionHandover(type,productName,category,pageable));
     }
 
     @GetMapping("/get-overdue")

@@ -12,8 +12,8 @@ import java.util.List;
 @Entity
 @Builder
 @Data
-@Table(name = "jewelry_category")
-public class JewelryCategory {
+@Table(name = "product_category")
+public class ProductCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -26,5 +26,5 @@ public class JewelryCategory {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
-    private List<Jewelry> jewelries;
+    private List<Product> jewelries;
 }

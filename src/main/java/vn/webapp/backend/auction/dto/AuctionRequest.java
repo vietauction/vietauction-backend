@@ -11,7 +11,7 @@ public record AuctionRequest(
         Double participationFee,
         Double deposit,
         Double priceStep,
-        Integer jewelryId,
+        Integer productId,
         Integer staffId
 ) {
 }

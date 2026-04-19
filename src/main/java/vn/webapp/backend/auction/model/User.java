@@ -125,7 +125,7 @@ public class User implements UserDetails {
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     @JsonIgnore
-    private List<Jewelry> jewelries;
+    private List<Product> jewelries;
 
     public String getFullName() {
         return firstName + " " + lastName;

@@ -35,7 +35,7 @@ public interface TransactionService {
 
     Page<Transaction> getTransactionByTypeAndState (TransactionType typename, String userName,TransactionState state, Pageable pageable);
 
-    Page<Transaction> getTransactionHandover (TransactionType typename, String jewelryName, String category, Pageable pageable);
+    Page<Transaction> getTransactionHandover (TransactionType typename, String productName, String category, Pageable pageable);
 
     List<Transaction> createTransactionForWinnerIfNotExists(Integer userId);
 
