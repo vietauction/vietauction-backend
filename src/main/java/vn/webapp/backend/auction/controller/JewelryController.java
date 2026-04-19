@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/jewelry")
+@RequestMapping("/api/v1/product")
 public class JewelryController {
 
     private final JewelryService jewelryService;
@@ -118,7 +118,7 @@ public class JewelryController {
         return ResponseEntity.ok(jewelryService.getJewelryByStateAndIsHolding(state,isHolding,category,jewelryName,pageable));
     }
 
-    @GetMapping("/jewelry-passed")
+    @GetMapping("/product-passed")
     public ResponseEntity<Page<Jewelry>> getRequestPassed(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "id") String sortBy,
@@ -155,7 +155,7 @@ public class JewelryController {
         return ResponseEntity.ok(jewelryService.getJewelriesInHandOver(pageable));
     }
 
-    @PostMapping("/jewelry-request")
+    @PostMapping("/product-request")
     public ResponseEntity<Jewelry> requestJewelry(@RequestBody SendJewelryFromUserRequest request) {
         return ResponseEntity.ok(jewelryService.requestJewelry(request));
     }
@@ -182,7 +182,7 @@ public class JewelryController {
         return ResponseEntity.ok(jewelryService.createJewelry(jewelry));
     }
 
-    @GetMapping("/user-jewelry/{userId}")
+    @GetMapping("/user-product/{userId}")
     public ResponseEntity<Page<Jewelry>> getJewelriesActiveByUserId(
             @PathVariable  Integer userId,
             @RequestParam(required = false) String jewelryName,

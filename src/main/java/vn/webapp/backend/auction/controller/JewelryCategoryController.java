@@ -12,7 +12,7 @@ import java.util.List;
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/jewelry-category")
+@RequestMapping("/api/v1/product-category")
 public class JewelryCategoryController {
 
     private final JewelryCategoryService jewelryCategoryService;
