@@ -12,9 +12,9 @@ USE DB_AUCTION;
 -- TRUNCATE TABLE auction;
 -- TRUNCATE TABLE request_approval;
 -- TRUNCATE TABLE image;
--- TRUNCATE TABLE jewelry;
+-- TRUNCATE TABLE product;
 -- TRUNCATE TABLE user;
--- TRUNCATE TABLE jewelry_category;
+-- TRUNCATE TABLE product_category;
 -- TRUNCATE TABLE bank;
 
 -- 1. Bank
@@ -23,8 +23,8 @@ INSERT INTO bank (bank_name, trading_name, logo) VALUES
                                                      ('Techcombank', 'Ngân hàng TMCP Kỹ Thương Việt Nam', 'https://example.com/tcb-logo.png'),
                                                      ('BIDV', 'Ngân hàng Đầu tư và Phát triển Việt Nam', 'https://example.com/bidv-logo.png');
 
--- 2. Jewelry Category
-INSERT INTO jewelry_category (name) VALUES
+-- 2. Product Category
+INSERT INTO product_category (name) VALUES
                                         ('Nhẫn cưới'),
                                         ('Dây chuyền vàng'),
                                         ('Lắc tay kim cương'),
@@ -40,32 +40,32 @@ INSERT INTO user (username, password, first_name, last_name, email, phone, addre
                                                                                                                                                                                                                                  ('manager1', '$2a$12$E4g4vqFSo/UmwyLPC4m.e.PtuBmD7I99lavzYAR3TK0XYXGt7klbS', 'Trần', 'Văn QL', 'seller1@gmail.com', '0987654321', '789 Nguyễn Huệ', 'HCM', 'Quận 1', 'Bến Thành', '1992', NULL, '112233445566', NULL, NULL, 'CA Bình Dương', 'ACTIVE', 1, '1112223334', 'Trần Văn Quản Lý', 'MANAGER'),
                                                                                                                                                                                                                                  ('bidder1', '$2a$12$E4g4vqFSo/UmwyLPC4m.e.PtuBmD7I99lavzYAR3TK0XYXGt7klbS', 'Lê', 'Thị Bidder', 'bidder1@gmail.com', '0935123456', '101 Pasteur', 'HCM', 'Quận 3', 'Phường 6', '1995', NULL, '223344556677', NULL, NULL, 'CA Đồng Nai', 'ACTIVE', 3, '4445556667', 'Lê Thị Bidder', 'MEMBER');
 
--- 4. Jewelry (trang sức của seller1)
-INSERT INTO jewelry (name, buy_now_price, description, material, brand, weight, is_holding, received_date, delivery_date, create_date, state, user_id, category_id) VALUES
+-- 4. Product (trang sức của seller1)
+INSERT INTO product (name, buy_now_price, description, material, brand, weight, is_holding, received_date, delivery_date, create_date, state, user_id, category_id) VALUES
                                                                                                                                                                         ('Nhẫn cưới vàng 18K đính kim cương solitaire', 45000000.00, 'Nhẫn cưới thiết kế tinh tế, vàng 18K, kim cương 0.5ct solitaire, PNJ style', 'SILVER', 'PNJ', 5.2, FALSE, '2026-02-15 10:00:00', NULL, '2026-02-10 09:00:00', 'ACTIVE', 3, 1),
                                                                                                                                                                         ('Dây chuyền vàng trắng đính ngọc trai tự nhiên', 32000000.00, 'Dây chuyền vàng trắng 14K với ngọc trai baroque cao cấp, DOJI style', 'SILVER', 'DOJI', 18.5, TRUE, '2026-03-01 14:30:00', NULL, '2026-02-20 11:00:00', 'ACTIVE', 3, 2);
 
 -- 5. Image (ảnh thực tế từ Unsplash/Pexels, syntax sạch)
-DELETE FROM image WHERE jewelry_id IN (1, 2);  -- Xóa cũ nếu có
+DELETE FROM image WHERE product_id IN (1, 2);  -- Xóa cũ nếu có
 
-INSERT INTO image (icon, link, data, jewelry_id) VALUES
--- Jewelry 1: Nhẫn cưới vàng kim cương
+INSERT INTO image (icon, link, data, product_id) VALUES
+-- Product 1: Nhẫn cưới vàng kim cương
 (TRUE, 'https://unsplash.com/photos/two-gold-wedding-rings-with-diamonds-on-petals-afmciNtfRkA/download?force=true', NULL, 1),
 (FALSE, 'https://unsplash.com/photos/a-gold-ring-with-diamonds-on-blue-silk-qpB9-iY7hkk/download?force=true', NULL, 1),
 (FALSE, 'https://images.pexels.com/photos/265870/pexels-photo-265870.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', NULL, 1)
 
--- Jewelry 2: Dây chuyền ngọc trai vàng trắng
+-- Product 2: Dây chuyền ngọc trai vàng trắng
 (TRUE, 'https://unsplash.com/photos/gold-colored-white-pearl-pendant-necklace-jSw10p2-L3I/download?force=true', NULL, 2),
 (FALSE, 'https://unsplash.com/photos/woman-in-white-pearl-necklace-E4hJoFywAtU/download?force=true', NULL, 2),
 (FALSE, 'https://images.pexels.com/photos/1454178/pexels-photo-1454178.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2', NULL, 2);
 
 -- 6. Request Approval
-INSERT INTO request_approval (valuation, desired_price, request_time, response_time, state, is_confirm, note, staff_id, sender_id, responder_id, jewelry_id) VALUES
+INSERT INTO request_approval (valuation, desired_price, request_time, response_time, state, is_confirm, note, staff_id, sender_id, responder_id, product_id) VALUES
                                                                                                                                                                  (42000000.00, 45000000.00, '2026-02-12 15:00:00', '2026-02-14 09:30:00', 'APPROVED', TRUE, 'Đánh giá tốt, kim cương đạt chuẩn', 2, 3, 2, 1),
                                                                                                                                                                  (30000000.00, 32000000.00, '2026-03-02 10:00:00', NULL, 'PENDING', FALSE, NULL, NULL, 3, NULL, 2);
 
 -- 7. Auction
-INSERT INTO auction (name, description, first_price, last_price, participation_fee, deposit, price_step, create_date, start_date, end_date, end_date_stored, staff_id, jewelry_id, state) VALUES
+INSERT INTO auction (name, description, first_price, last_price, participation_fee, deposit, price_step, create_date, start_date, end_date, end_date_stored, staff_id, product_id, state) VALUES
     ('Phiên đấu giá nhẫn cưới kim cương PNJ', 'Nhẫn cưới vàng 18K đính kim cương 0.5ct - Giá khởi điểm hấp dẫn', 30000000.00, NULL, 500000.00, 5000000.00, 1000000.00, '2026-02-20 10:00:00', '2026-03-15 20:00:00', '2026-03-16 22:00:00', '2026-03-16 22:00:00', 2, 1, 'WAITING');
 
 -- 8. Transaction

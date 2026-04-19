@@ -31,7 +31,7 @@ public interface AuctionService {
 
     Page<Auction> getByStaffID(Integer id, String auctionName, Pageable pageable);
 
-    Auction getCurrentAuctionByJewelryId(Integer id);
+    Auction getCurrentAuctionByProductId(Integer id);
 
     Auction createNewAuction(AuctionRequest request);
 

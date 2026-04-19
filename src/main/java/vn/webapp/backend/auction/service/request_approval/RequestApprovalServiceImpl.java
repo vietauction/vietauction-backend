@@ -9,16 +9,16 @@ import vn.webapp.backend.auction.dto.CancelRequestApproval;
 import vn.webapp.backend.auction.dto.ManagerRequestApproval;
 import vn.webapp.backend.auction.dto.StaffRequestApproval;
 import vn.webapp.backend.auction.dto.UserRequestApproval;
-import vn.webapp.backend.auction.enums.JewelryState;
+import vn.webapp.backend.auction.enums.ProductState;
 import vn.webapp.backend.auction.enums.RequestApprovalState;
 import vn.webapp.backend.auction.enums.Role;
 import vn.webapp.backend.auction.exception.ResourceNotFoundException;
 import vn.webapp.backend.auction.exception.UserNotFoundException;
 import vn.webapp.backend.auction.model.ErrorMessages;
-import vn.webapp.backend.auction.model.Jewelry;
+import vn.webapp.backend.auction.model.Product;
 import vn.webapp.backend.auction.model.RequestApproval;
 import vn.webapp.backend.auction.model.User;
-import vn.webapp.backend.auction.repository.JewelryRepository;
+import vn.webapp.backend.auction.repository.ProductRepository;
 import vn.webapp.backend.auction.repository.RequestApprovalRepository;
 import vn.webapp.backend.auction.repository.UserRepository;
 
@@ -31,7 +31,7 @@ import java.time.Instant;
 public class RequestApprovalServiceImpl implements RequestApprovalService {
     private final RequestApprovalRepository requestApprovalRepository;
     private final UserRepository userRepository;
-    private final JewelryRepository jewelryRepository;
+    private final ProductRepository productRepository;
 
     @Override
     public RequestApproval getRequestById(Integer id) {
@@ -49,7 +49,7 @@ public class RequestApprovalServiceImpl implements RequestApprovalService {
             existingRequest.setStaff(existUser);
         }
         if (existUser.getRole().equals(Role.MEMBER)) {
-            existingRequest.getJewelry().setState(JewelryState.HIDDEN);
+            existingRequest.getProduct().setState(ProductState.HIDDEN);
         }
         existingRequest.setResponder(existUser);
         existingRequest.setState(RequestApprovalState.valueOf(state));
@@ -68,8 +68,8 @@ public class RequestApprovalServiceImpl implements RequestApprovalService {
         if (responder.getRole().equals(Role.STAFF)) {
             request.setStaff(responder);
         } else if (responder.getRole().equals(Role.MEMBER)) {
-            request.getJewelry().setState(JewelryState.ACTIVE);
-            request.getJewelry().setIsHolding(false);
+            request.getProduct().setState(ProductState.ACTIVE);
+            request.getProduct().setIsHolding(false);
         }
 
         request.setConfirm(true);
@@ -81,17 +81,17 @@ public class RequestApprovalServiceImpl implements RequestApprovalService {
     public void cancelRequest(CancelRequestApproval request) {
         var existingRequest = requestApprovalRepository.findById(request.requestId())
                 .orElseThrow(() -> new ResourceNotFoundException(ErrorMessages.REQUEST_APPROVAL_NOT_FOUND));
-        Jewelry jewelry = existingRequest.getJewelry();
-        jewelry.setState(JewelryState.HIDDEN);
-        existingRequest.setJewelry(jewelry);
+        Product product = existingRequest.getProduct();
+        product.setState(ProductState.HIDDEN);
+        existingRequest.setProduct(product);
         existingRequest.setNote(request.note());
     }
 
     @Override
-    public Page<RequestApproval> getRequestBySenderRole(Role role, String jewelryName, String category, Pageable pageable) {
+    public Page<RequestApproval> getRequestBySenderRole(Role role, String productName, String category, Pageable pageable) {
         if (category.equals("Tất cả"))
-            return requestApprovalRepository.findRequestApprovalBySenderRole(role, jewelryName, null, pageable);
-        return requestApprovalRepository.findRequestApprovalBySenderRole(role, jewelryName, category, pageable);
+            return requestApprovalRepository.findRequestApprovalBySenderRole(role, productName, null, pageable);
+        return requestApprovalRepository.findRequestApprovalBySenderRole(role, productName, category, pageable);
     }
 
     @Override
@@ -99,16 +99,16 @@ public class RequestApprovalServiceImpl implements RequestApprovalService {
         User sender = userRepository.findById(request.senderId())
                 .orElseThrow(() -> new UserNotFoundException(ErrorMessages.USER_NOT_FOUND));
 
-        Jewelry jewelry = jewelryRepository.findById(request.jewelryId())
-                .orElseThrow(() -> new IllegalArgumentException(ErrorMessages.JEWELRY_NOT_FOUND));
+        Product product = productRepository.findById(request.productId())
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessages.PRODUCT_NOT_FOUND));
 
         RequestApproval newRequest = new RequestApproval();
         newRequest.setRequestTime(request.requestTime());
-        newRequest.setJewelry(jewelry);
+        newRequest.setProduct(product);
         newRequest.setConfirm(false);
         newRequest.setState(RequestApprovalState.ACTIVE);
         newRequest.setSender(sender);
-        newRequest.setDesiredPrice(jewelry.getBuyNowPrice());
+        newRequest.setDesiredPrice(product.getBuyNowPrice());
         requestApprovalRepository.save(newRequest);
         return newRequest;
     }
@@ -123,11 +123,11 @@ public class RequestApprovalServiceImpl implements RequestApprovalService {
 
         RequestApproval newRequest = new RequestApproval();
         newRequest.setRequestTime(request.requestTime());
-        newRequest.setJewelry(oldRequest.getJewelry());
+        newRequest.setProduct(oldRequest.getProduct());
         newRequest.setConfirm(false);
         newRequest.setState(RequestApprovalState.ACTIVE);
         newRequest.setSender(sender);
-        newRequest.setDesiredPrice(oldRequest.getJewelry().getBuyNowPrice());
+        newRequest.setDesiredPrice(oldRequest.getProduct().getBuyNowPrice());
         newRequest.setValuation(request.valuation());
         newRequest.setStaff(sender);
         requestApprovalRepository.save(newRequest);
@@ -144,7 +144,7 @@ public class RequestApprovalServiceImpl implements RequestApprovalService {
 
         RequestApproval newRequest = new RequestApproval();
         newRequest.setRequestTime(request.requestTime());
-        newRequest.setJewelry(oldRequest.getJewelry());
+        newRequest.setProduct(oldRequest.getProduct());
         newRequest.setConfirm(false);
         newRequest.setState(RequestApprovalState.ACTIVE);
         newRequest.setSender(sender);
@@ -156,22 +156,22 @@ public class RequestApprovalServiceImpl implements RequestApprovalService {
     }
 
     @Override
-    public Page<RequestApproval> getRequestApprovalByUserId(Integer id, String jewelryName, String category, Pageable pageable) {
+    public Page<RequestApproval> getRequestApprovalByUserId(Integer id, String productName, String category, Pageable pageable) {
         if (category.equals("Tất cả"))
-            return requestApprovalRepository.findRequestApprovalByUserId(id, jewelryName,null, pageable);
-        return requestApprovalRepository.findRequestApprovalByUserId(id, jewelryName,category, pageable);
+            return requestApprovalRepository.findRequestApprovalByUserId(id, productName,null, pageable);
+        return requestApprovalRepository.findRequestApprovalByUserId(id, productName,category, pageable);
     }
 
     @Override
-    public Page<RequestApproval> getRequestApprovalPassed(String jewelryName, String category, Pageable pageable) {
+    public Page<RequestApproval> getRequestApprovalPassed(String productName, String category, Pageable pageable) {
         if (category.equals("Tất cả")) {
-            return requestApprovalRepository.findRequestApprovalPassed(jewelryName, null, pageable);
+            return requestApprovalRepository.findRequestApprovalPassed(productName, null, pageable);
         }
-        return requestApprovalRepository.findRequestApprovalPassed(jewelryName, category, pageable);
+        return requestApprovalRepository.findRequestApprovalPassed(productName, category, pageable);
     }
 
     @Override
-    public Page<RequestApproval> getRequestNeedConfirmByMember(Integer memberId,String jewelryName, Pageable pageable) {
-        return requestApprovalRepository.findRequestNeedConfirmByMember(memberId,jewelryName, pageable);
+    public Page<RequestApproval> getRequestNeedConfirmByMember(Integer memberId,String productName, Pageable pageable) {
+        return requestApprovalRepository.findRequestNeedConfirmByMember(memberId,productName, pageable);
     }
 }

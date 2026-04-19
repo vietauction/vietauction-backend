@@ -58,7 +58,7 @@ public class AuctionServiceTest extends AbstractTestNGSpringContextTests{
         // Assert
         assertNotNull(auctions);
         assertFalse(auctions.isEmpty());
-        // Verify that each returned Jewelry item belongs to the expected username
+        // Verify that each returned Product item belongs to the expected username
         for (Auction auction : auctions) {
             assertTrue(auction.getName().toLowerCase().contains(name.toLowerCase()));
         }
@@ -79,14 +79,14 @@ public class AuctionServiceTest extends AbstractTestNGSpringContextTests{
     }
 
     @Test
-    public void testGetCurrentAuctionByJewelryIdReturnsWell() {
+    public void testGetCurrentAuctionByProductIdReturnsWell() {
         // Expected
-        Integer jewelryId = 1;
+        Integer productId = 1;
         // Act
-        Auction auction = auctionService.getCurrentAuctionByJewelryId(jewelryId);
+        Auction auction = auctionService.getCurrentAuctionByProductId(productId);
         // Assert
         assertNotNull(auction);
-        assertEquals(auction.getJewelry().getId(), jewelryId);
+        assertEquals(auction.getProduct().getId(), productId);
     }
     // ===================================================================
     @Test

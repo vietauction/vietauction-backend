@@ -49,7 +49,7 @@ public class RequestApprovalController {
     @GetMapping("/sender/{role}")
     public ResponseEntity<Page<RequestApproval>> getRequestByRoleOfSender(
             @PathVariable Role role,
-            @RequestParam(required = false) String jewelryName,
+            @RequestParam(required = false) String productName,
             @RequestParam(required = false) String category,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(defaultValue = "0") int page,
@@ -57,7 +57,7 @@ public class RequestApprovalController {
             @RequestParam(defaultValue = "asc") String sortOrder) {
         Sort.Direction direction = (sortOrder.equalsIgnoreCase("asc")) ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable pageable = PageRequest.of(page, size, direction, sortBy);
-        return ResponseEntity.ok(requestApprovalService.getRequestBySenderRole(role, jewelryName, category, pageable));
+        return ResponseEntity.ok(requestApprovalService.getRequestBySenderRole(role, productName, category, pageable));
     }
 
 
@@ -65,35 +65,35 @@ public class RequestApprovalController {
     public ResponseEntity<Page<RequestApproval>> getRequestNeedMemberConfirm(
             @PathVariable Integer memberId,
             @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(required = false) String jewelryName,
+            @RequestParam(required = false) String productName,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "asc") String sortOrder) {
         Sort.Direction direction = (sortOrder.equalsIgnoreCase("asc")) ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable pageable = PageRequest.of(page, size, direction, sortBy);
-        return ResponseEntity.ok(requestApprovalService.getRequestNeedConfirmByMember(memberId,jewelryName, pageable));
+        return ResponseEntity.ok(requestApprovalService.getRequestNeedConfirmByMember(memberId,productName, pageable));
     }
 
     @PostMapping("/send-from-user")
-    public ResponseEntity<RequestApproval> newRequestJewelryFromUser(@RequestBody UserRequestApproval request) {
+    public ResponseEntity<RequestApproval> newRequestProductFromUser(@RequestBody UserRequestApproval request) {
         return ResponseEntity.ok(requestApprovalService.requestFromUser(request));
     }
 
 
     @PostMapping("/send-from-staff")
-    public ResponseEntity<RequestApproval> newRequestJewelryFromStaff(@RequestBody StaffRequestApproval request) {
+    public ResponseEntity<RequestApproval> newRequestProductFromStaff(@RequestBody StaffRequestApproval request) {
         return ResponseEntity.ok(requestApprovalService.requestFromStaff(request));
     }
 
     @PostMapping("/send-from-manager")
-    public ResponseEntity<RequestApproval> newRequestJewelryFromManager(@RequestBody ManagerRequestApproval request) {
+    public ResponseEntity<RequestApproval> newRequestProductFromManager(@RequestBody ManagerRequestApproval request) {
         return ResponseEntity.ok(requestApprovalService.requestFromManager(request));
     }
 
     @GetMapping("/user/{id}")
     public ResponseEntity<Page<RequestApproval>> getRequestApprovalByUserId(
             @PathVariable Integer id,
-            @RequestParam(required = false) String jewelryName,
+            @RequestParam(required = false) String productName,
             @RequestParam(defaultValue = "id") String sortBy,
             @RequestParam(required = false) String category,
             @RequestParam(defaultValue = "0") int page,
@@ -101,19 +101,19 @@ public class RequestApprovalController {
             @RequestParam(defaultValue = "desc") String sortOrder) {
         Sort.Direction direction = (sortOrder.equalsIgnoreCase("asc")) ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable pageable = PageRequest.of(page, size, direction, sortBy);
-        return ResponseEntity.ok(requestApprovalService.getRequestApprovalByUserId(id, jewelryName,category, pageable));
+        return ResponseEntity.ok(requestApprovalService.getRequestApprovalByUserId(id, productName,category, pageable));
     }
 
     @GetMapping("/request-passed")
     public ResponseEntity<Page<RequestApproval>> getRequestPassed(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "id") String sortBy,
-            @RequestParam(required = false) String jewelryName,
+            @RequestParam(required = false) String productName,
             @RequestParam(required = false) String category,
             @RequestParam(defaultValue = "5") int size,
             @RequestParam(defaultValue = "asc") String sortOrder) {
         Sort.Direction direction = (sortOrder.equalsIgnoreCase("asc")) ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable pageable = PageRequest.of(page, size, direction, sortBy);
-        return ResponseEntity.ok(requestApprovalService.getRequestApprovalPassed(jewelryName, category, pageable));
+        return ResponseEntity.ok(requestApprovalService.getRequestApprovalPassed(productName, category, pageable));
     }
 }

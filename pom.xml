@@ -13,7 +13,7 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>auction</name>
-    <description>Project for Spring Boot for Auction Jewelry</description>
+    <description>Project for Spring Boot for Auction Product</description>
     <properties>
         <java.version>21</java.version>
     </properties>

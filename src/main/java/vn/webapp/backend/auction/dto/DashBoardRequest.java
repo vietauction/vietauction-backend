@@ -7,8 +7,8 @@ public record DashBoardRequest (
         Integer yearGetRevenue,
         Integer yearGetAuctionFailedAndSuccess,
         Integer monthGetAuctionFailedAndSuccess,
-        Integer yearGetJewelry,
-        Integer monthGetJewelry,
+        Integer yearGetProduct,
+        Integer monthGetProduct,
         Integer yearGetUserJoinAuction
 ) {
 }

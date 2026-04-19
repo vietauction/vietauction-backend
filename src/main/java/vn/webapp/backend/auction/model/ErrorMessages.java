@@ -7,8 +7,8 @@ public class ErrorMessages {
     public static final String USER_NOT_VERIFIED = "Người dùng chưa xác thực.";
     public static final String USER_ALREADY_EXIST = "Người dùng đã tồn tại.";
     public static final String REQUEST_APPROVAL_NOT_FOUND = "Không tìm thấy yêu cầu.";
-    public static final String JEWELRY_NOT_FOUND = "Không tìm thấy trang sức.";
-    public static final String JEWELRY_CATEGORY_NOT_FOUND = "Không tìm thấy danh mục trang sức.";
+    public static final String PRODUCT_NOT_FOUND = "Không tìm thấy trang sức.";
+    public static final String PRODUCT_CATEGORY_NOT_FOUND = "Không tìm thấy danh mục trang sức.";
     public static final String AUCTION_NOT_FOUND = "Không tìm thấy phiên đấu giá.";
     public static final String USER_WINNER_NOT_FOUND = "không tìm thấy người chiến thắng.";
     public static final String USER_OWNER_NOT_FOUND = "không tìm thấy chủ tài sản.";

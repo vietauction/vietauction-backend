@@ -70,8 +70,8 @@ public class Auction {
             CascadeType.PERSIST, CascadeType.DETACH,
             CascadeType.MERGE, CascadeType.REFRESH
     })
-    @JoinColumn(name = "jewelry_id")
-    private Jewelry jewelry;
+    @JoinColumn(name = "product_id")
+    private Product product;
 
     @Enumerated(EnumType.STRING)
     private AuctionState state;

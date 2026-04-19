@@ -4,7 +4,7 @@ import java.sql.Timestamp;
 
 public record UserRequestApproval(
         Integer senderId,
-        Integer jewelryId,
+        Integer productId,
         Timestamp requestTime
 ) {
 }

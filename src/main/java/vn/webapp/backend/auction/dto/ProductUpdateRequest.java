@@ -1,16 +1,16 @@
 package vn.webapp.backend.auction.dto;
 
-import vn.webapp.backend.auction.enums.JewelryMaterial;
+import vn.webapp.backend.auction.enums.ProductMaterial;
 
 import java.sql.Timestamp;
 
-public record JewelryUpdateRequest(
+public record ProductUpdateRequest(
         Integer id,
         String name,
         String description,
         String category,
         Double buyNowPrice,
-        JewelryMaterial material,
+        ProductMaterial material,
         String brand,
         Double weight,
         Timestamp createDate,

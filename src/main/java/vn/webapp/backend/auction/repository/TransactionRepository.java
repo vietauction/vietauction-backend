@@ -28,12 +28,12 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
             Pageable pageable
     );
     @Query("SELECT t FROM Transaction t WHERE t.paymentMethod IS NOT NULL AND t.type = :typename "+
-            "AND (:jewelryName IS NULL OR t.auction.jewelry.name LIKE %:jewelryName%) "+
-            "AND t.auction.jewelry.state = 'AUCTION' AND t.auction.jewelry.isHolding= true "+
-            "AND (:category IS NULL OR t.auction.jewelry.category.name = :category)")
+            "AND (:productName IS NULL OR t.auction.product.name LIKE %:productName%) "+
+            "AND t.auction.product.state = 'AUCTION' AND t.auction.product.isHolding= true "+
+            "AND (:category IS NULL OR t.auction.product.category.name = :category)")
     Page<Transaction> findTransactionHandover(
             @Param("typename") TransactionType typename ,
-            @Param("jewelryName") String jewelryName,
+            @Param("productName") String productName,
             @Param("category") String category,
             Pageable pageable);
 
@@ -90,13 +90,13 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
                                               Pageable pageable);
 
     @Query("SELECT SUM(t.totalPrice) FROM Transaction t WHERE t.type = 'PAYMENT_TO_WINNER' AND t.user.username = :username")
-    Double getTotalPriceJewelryWonByUsername(@Param("username") String username);
+    Double getTotalPriceProductWonByUsername(@Param("username") String username);
 
     @Query("SELECT SUM(t.totalPrice) FROM Transaction t WHERE t.type = 'PAYMENT_TO_WINNER' AND t.user.username = :username AND t.state = 'SUCCEED'")
-    Double getTotalPriceJewelryWonByUsernameAndAlreadyPay(@Param("username") String username);
+    Double getTotalPriceProductWonByUsernameAndAlreadyPay(@Param("username") String username);
 
     @Query("SELECT COUNT(t) FROM Transaction t WHERE t.type = 'PAYMENT_TO_WINNER' AND t.user.username = :username")
-    Integer getTotalJewelryWon(@Param("username") String username);
+    Integer getTotalProductWon(@Param("username") String username);
 
     @Query("SELECT t FROM Transaction t WHERE t.type = 'PAYMENT_TO_WINNER' AND t.auction.id = :auctionId AND t.user.id = :userId AND t.state != 'FAILED'")
     Optional<Transaction> findTransactionByAuctionIdAndUserId(@Param("auctionId") Integer auctionId, @Param("userId") Integer userId);

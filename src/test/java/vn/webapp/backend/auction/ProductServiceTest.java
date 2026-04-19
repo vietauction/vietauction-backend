@@ -7,8 +7,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import vn.webapp.backend.auction.exception.ResourceNotFoundException;
 
-import vn.webapp.backend.auction.model.Jewelry;
-import vn.webapp.backend.auction.service.jewelry.JewelryService;
+import vn.webapp.backend.auction.model.Product;
+import vn.webapp.backend.auction.service.product.ProductService;
 
 import java.util.List;
 
@@ -16,22 +16,22 @@ import static org.testng.Assert.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
-public class JewelryServiceTest extends AbstractTestNGSpringContextTests {
+public class ProductServiceTest extends AbstractTestNGSpringContextTests {
 
     @Autowired
-    private JewelryService jewelryService;
+    private ProductService productService;
 
     @Test
-    public void testGetJewelryByIdReturnsWell(){
+    public void testGetProductByIdReturnsWell(){
         // Expected
         Integer id = 1;
 
         // Act
-        Jewelry jewelry = jewelryService.getJewelryById(id);
+        Product product = productService.getProductById(id);
 
         // Assert
-        assertNotNull(jewelry);
-        assertEquals(jewelry.getId(), id);
+        assertNotNull(product);
+        assertEquals(product.getId(), id);
     }
 
     @Test
@@ -39,13 +39,13 @@ public class JewelryServiceTest extends AbstractTestNGSpringContextTests {
         // Expected
         String username = "phuuthanh2003";
         // Act
-        List<Jewelry> jewelries = jewelryService.getJewelryByUsername(username);
+        List<Product> jewelries = productService.getProductByUsername(username);
         // Assert
         assertNotNull(jewelries);
         assertFalse(jewelries.isEmpty());
-        // Verify that each returned Jewelry item belongs to the expected username
-        for (Jewelry jewelry : jewelries) {
-            assertEquals(jewelry.getUser().getUsername(), username);
+        // Verify that each returned Product item belongs to the expected username
+        for (Product product : jewelries) {
+            assertEquals(product.getUser().getUsername(), username);
         }
     }
 
@@ -54,13 +54,13 @@ public class JewelryServiceTest extends AbstractTestNGSpringContextTests {
         // Expected
         Integer id = 1;
         // Act
-        List<Jewelry> jewelries = jewelryService.getJewelriesByCategoryId(id);
+        List<Product> jewelries = productService.getJewelriesByCategoryId(id);
         // Assert
         assertNotNull(jewelries);
         assertFalse(jewelries.isEmpty());
-        // Verify that each returned Jewelry item belongs to the expected username
-        for (Jewelry jewelry : jewelries) {
-            assertEquals(jewelry.getCategory().getId(), id);
+        // Verify that each returned Product item belongs to the expected username
+        for (Product product : jewelries) {
+            assertEquals(product.getCategory().getId(), id);
         }
     }
 
@@ -69,27 +69,27 @@ public class JewelryServiceTest extends AbstractTestNGSpringContextTests {
         // Expected
         String key = "Nhẫn";
         // Act
-        List<Jewelry> jewelries = jewelryService.getJewelriesByNameContain(key);
+        List<Product> jewelries = productService.getJewelriesByNameContain(key);
         // Assert
         assertNotNull(jewelries);
         assertFalse(jewelries.isEmpty());
-        // Verify that each returned Jewelry item belongs to the expected username
-        for (Jewelry jewelry : jewelries) {
-            assertTrue(jewelry.getDescription().toLowerCase().contains(key.toLowerCase()));
+        // Verify that each returned Product item belongs to the expected username
+        for (Product product : jewelries) {
+            assertTrue(product.getDescription().toLowerCase().contains(key.toLowerCase()));
         }
     }
 
     @Test
-    public void testGetJewelryByIdReturnsNull(){
+    public void testGetProductByIdReturnsNull(){
         Integer nonExistId = 99;
 
-        assertThrows(ResourceNotFoundException.class, () -> jewelryService.getJewelryById(nonExistId));
+        assertThrows(ResourceNotFoundException.class, () -> productService.getProductById(nonExistId));
     }
 
 //    @Test
 //    public void testGetJewelriesByUsernameReturnNull(){
 //        String nonExistUsername = "tam12345";
-//        assertThrows(ResourceNotFoundException.class, () -> jewelryService.getJewelriesByUsername(nonExistUsername));
+//        assertThrows(ResourceNotFoundException.class, () -> productService.getJewelriesByUsername(nonExistUsername));
 ////    }
 //    @Test
 //    public void TestGetJeweriesByCategoryIdReturnsNulll(){

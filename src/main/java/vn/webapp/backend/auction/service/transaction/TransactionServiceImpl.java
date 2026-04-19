@@ -49,14 +49,14 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public UserTransactionResponse getTransactionsDashboardByUsername(String username) {
         Integer numberRegistration = transactionRepository.getCountTransactionsRegistrationByUsername(username);
-        Double totalPriceJewelryWonByUsername = transactionRepository.getTotalPriceJewelryWonByUsername(username);
-        Integer totalJewelryWon = transactionRepository.getTotalJewelryWon(username);
+        Double totalPriceProductWonByUsername = transactionRepository.getTotalPriceProductWonByUsername(username);
+        Integer totalProductWon = transactionRepository.getTotalProductWon(username);
         Integer totalBid = auctionHistoryRepository.getTotalBidByUsername(username);
         
         return UserTransactionResponse.builder()
                 .numberTransactionsRequest(numberRegistration)
-                .totalPriceJewelryWonByUsername(totalPriceJewelryWonByUsername)
-                .totalJewelryWon(totalJewelryWon)
+                .totalPriceProductWonByUsername(totalPriceProductWonByUsername)
+                .totalProductWon(totalProductWon)
                 .totalBid(totalBid)
                 .build();
     }
@@ -76,10 +76,10 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public Page<Transaction> getTransactionHandover(TransactionType typename, String jewelryName, String category, Pageable pageable) {
+    public Page<Transaction> getTransactionHandover(TransactionType typename, String productName, String category, Pageable pageable) {
         if (category.equals("Tất cả"))
-            return transactionRepository.findTransactionHandover(typename,jewelryName,null, pageable);
-        return transactionRepository.findTransactionHandover(typename,jewelryName,category, pageable);
+            return transactionRepository.findTransactionHandover(typename,productName,null, pageable);
+        return transactionRepository.findTransactionHandover(typename,productName,category, pageable);
     }
 
     @Override

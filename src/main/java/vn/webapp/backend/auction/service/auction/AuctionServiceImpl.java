@@ -11,7 +11,7 @@ import vn.webapp.backend.auction.dto.AuctionRegistrationResponse;
 import vn.webapp.backend.auction.dto.AuctionRequest;
 import vn.webapp.backend.auction.enums.AccountState;
 import vn.webapp.backend.auction.enums.AuctionState;
-import vn.webapp.backend.auction.enums.JewelryState;
+import vn.webapp.backend.auction.enums.ProductState;
 import vn.webapp.backend.auction.enums.TransactionState;
 import vn.webapp.backend.auction.exception.ResourceNotFoundException;
 import vn.webapp.backend.auction.model.*;
@@ -35,7 +35,7 @@ public class AuctionServiceImpl implements AuctionService {
 
     private final AuctionRepository auctionRepository;
     private final UserRepository userRepository;
-    private final JewelryRepository jewelryRepository;
+    private final ProductRepository productRepository;
     private final TransactionRepository transactionRepository;
     private final AuctionRegistrationRepository auctionRegistrationRepository;
     private final EmailService emailService;
@@ -77,8 +77,8 @@ public class AuctionServiceImpl implements AuctionService {
     }
 
     @Override
-    public Auction getCurrentAuctionByJewelryId(Integer id) {
-        List<Auction> auctionList = auctionRepository.findAuctionByJewelryId(id);
+    public Auction getCurrentAuctionByProductId(Integer id) {
+        List<Auction> auctionList = auctionRepository.findAuctionByProductId(id);
         if (auctionList.isEmpty()) {
             return null;
         }
@@ -92,13 +92,13 @@ public class AuctionServiceImpl implements AuctionService {
             throw new IllegalArgumentException("Staff with ID " + request.staffId() + " not found");
         }
 
-        Optional<Jewelry> existJewelry = jewelryRepository.findById(request.jewelryId());
-        if (existJewelry.isEmpty()) {
-            throw new IllegalArgumentException("Jewelry with ID " + request.jewelryId() + " not found");
+        Optional<Product> existProduct = productRepository.findById(request.productId());
+        if (existProduct.isEmpty()) {
+            throw new IllegalArgumentException("Product with ID " + request.productId() + " not found");
         }
         User staff = existStaff.get();
-        Jewelry jewelry = existJewelry.get();
-        jewelry.setState(JewelryState.AUCTION);
+        Product product = existProduct.get();
+        product.setState(ProductState.AUCTION);
         Auction auction = new Auction();
 
         auction.setName(request.name());
@@ -110,7 +110,7 @@ public class AuctionServiceImpl implements AuctionService {
         auction.setCreateDate(Timestamp.valueOf(LocalDateTime.now(ZoneId.of("Asia/Ho_Chi_Minh"))));
         auction.setStartDate(request.startDate());
         auction.setEndDate(request.endDate());
-        auction.setJewelry(jewelry);
+        auction.setProduct(product);
         auction.setState(AuctionState.WAITING);
         auction.setUser(staff);
 
@@ -152,19 +152,19 @@ public class AuctionServiceImpl implements AuctionService {
         var existingTransaction = transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new ResourceNotFoundException(ErrorMessages.TRANSACTION_NOT_FOUND));
         Integer auctionId = existingTransaction.getAuction().getId();
-        Integer jewelryId = existingTransaction.getAuction().getJewelry().getId();
+        Integer productId = existingTransaction.getAuction().getProduct().getId();
         Integer userId = existingTransaction.getUser().getId();
         var existingAuction = auctionRepository.findById(auctionId)
                 .orElseThrow(() -> new ResourceNotFoundException(ErrorMessages.AUCTION_NOT_FOUND));
-        var existingJewelry = jewelryRepository.findById(jewelryId)
-                .orElseThrow(() -> new ResourceNotFoundException(ErrorMessages.JEWELRY_NOT_FOUND));
+        var existingProduct = productRepository.findById(productId)
+                .orElseThrow(() -> new ResourceNotFoundException(ErrorMessages.PRODUCT_NOT_FOUND));
         var existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException(ErrorMessages.USER_NOT_FOUND));
 
         String reason = ReasonMessages.DO_NOT_PAY_ON_TIME;
         existingTransaction.setState(TransactionState.FAILED);
         existingAuction.setState(AuctionState.FINISHED);
-        existingJewelry.setState(JewelryState.ACTIVE);
+        existingProduct.setState(ProductState.ACTIVE);
         existingUser.setState(AccountState.BAN_PARTICIPATING);
         existingUser.setBanReason(reason);
 

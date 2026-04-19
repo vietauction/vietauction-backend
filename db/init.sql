@@ -42,16 +42,16 @@ VALUES (1, N'Ngân hàng Nông nghiệp và Phát triển Nông thôn Việt Nam
        (10, N'Ngân hàng Á Châu',
         'https://inhoangkien.vn/wp-content/uploads/2020/04/logo-ngan-hang-ACB-PNG-e1585972709842-300x148.png', 'ACB');
 
--- Create the 'jewelry_category' table if it does not exist
+-- Create the 'product_category' table if it does not exist
 
-CREATE TABLE jewelry_category
+CREATE TABLE product_category
 (
     id   INT PRIMARY KEY IDENTITY,
     name NVARCHAR(100)
 );
 
--- Insert data into the 'jewelry_category' table
-INSERT INTO jewelry_category (name)
+-- Insert data into the 'product_category' table
+INSERT INTO product_category (name)
 VALUES (N'Dây chuyền'),
        (N'Nhẫn'),
        (N'Vòng tay'),
@@ -101,7 +101,7 @@ CREATE TABLE [dbo].[user]
             'CA MAU', '');
 
 
-CREATE TABLE [dbo].[jewelry]
+CREATE TABLE [dbo].[product]
 (
     [id]          [int] IDENTITY (1,1) NOT NULL,
     [brand]       [nvarchar](20)       NOT NULL,
@@ -119,7 +119,7 @@ CREATE TABLE [dbo].[jewelry]
     [create_date] [datetime2](6)     NULL
 )
 
-    INSERT INTO [dbo].[jewelry]
+    INSERT INTO [dbo].[product]
 ([brand], [description], [material], [name], [buy_now_price], [state], [weight], [category_id], [user_id], [is_holding])
     VALUES (N'DOJI', N'Nhẫn đính hôn bằng kim cương.', 'SILVER', N'NHẪN ĐÍNH HÔN KIM CƯƠNG ENR3111W', 44500000, 'ACTIVE',
             15.5, 2, 1, 1),
@@ -128,7 +128,7 @@ CREATE TABLE [dbo].[jewelry]
             (N'DOJI', N'Nhẫn đính hôn bằng kim cương.', 'SILVER', N'NHẪN KIM CƯƠNG FDR0257', 41130000, 'ACTIVE', 20.1, 2, 1, 1),
             (N'DOJI', N'Nhẫn đính hôn bằng kim cương.', 'SILVER', N'NHẪN KIM CƯƠNG DJR397-22', 37000000, 'ACTIVE', 10.0, 2,
             1, 1),
-            (N'Fine Jewelry', N'Dây chuyền kim cương', 'GOLD',  N'Dây chuyền kim cương Y', 18000000, 'ACTIVE', 6.9, 1, 15, 1);
+            (N'Fine Product', N'Dây chuyền kim cương', 'GOLD',  N'Dây chuyền kim cương Y', 18000000, 'ACTIVE', 6.9, 1, 15, 1);
 
 CREATE TABLE [dbo].[auction]
 (
@@ -143,7 +143,7 @@ CREATE TABLE [dbo].[auction]
     [price_step]        [float]              NOT NULL,
     [start_date]        [datetime2](6)       NOT NULL,
     [state]             [varchar](255)       NULL,
-    [jewelry_id]        [int]                NULL,
+    [product_id]        [int]                NULL,
     [staff_id]          [int]                NULL,
     [create_date]       [datetime2](6)       NULL,
     [end_date_stored]   [datetime2](6)       NULL
@@ -151,7 +151,7 @@ CREATE TABLE [dbo].[auction]
 
     INSERT INTO [dbo].[auction]
 ([deposit], [description], [first_price], [end_date], [last_price], [name], [participation_fee], [price_step],
-    [start_date], [state], [jewelry_id], [staff_id], [create_date])
+    [start_date], [state], [product_id], [staff_id], [create_date])
     VALUES (10000000, N'NHẪN ĐÍNH HÔN KIM CƯƠNG ENR3111W', 44500000, '2023-05-19 14:00:00', 70500000,
             N'Đấu giá nhẫn kim cương ENR3111W', 500000, 1000000, '2023-05-19 10:00:00', 'FINISHED', 1, 1, '2023-05-19 01:00:00'),
             (10000000, N'NHẪN CƯỚI KIM CƯƠNG IWR163', 5000000, '2024-05-25 21:00:00', NULL,
@@ -200,10 +200,10 @@ CREATE TABLE [dbo].[image]
     [data] [varchar](max) NULL,
     [icon] [bit] NULL,
     [link] [varchar](255) NULL,
-    [jewelry_id] [int] NULL
+    [product_id] [int] NULL
 )
 
-    INSERT INTO [dbo].[image] ([data], [icon], [link], [jewelry_id])
+    INSERT INTO [dbo].[image] ([data], [icon], [link], [product_id])
     VALUES
 ('https://raw.githubusercontent.com/phuuthanh2003/FE_Deploy/main/public/assets/images/product/small-size/1.jpg', 1, '', 1),
 ('https://raw.githubusercontent.com/phuuthanh2003/FE_Deploy/main/public/assets/images/product/small-size/2.jpg', 0, '', 1),
@@ -260,12 +260,12 @@ CREATE TABLE [dbo].[request_approval](
     [response_time] [datetime2](6) NULL,
     [state] [varchar](255) NULL,
     [valuation] [float] NULL,
-    [jewelry_id] [int] NULL,
+    [product_id] [int] NULL,
     [user_id_respond] [int] NULL,
     [user_id_send] [int] NULL,
     [staff_id] [int] NULL
     )
 
-    INSERT INTO [dbo].[request_approval] ([desired_price], [is_confirm], [note], [request_time], [response_time], [state], [valuation], [jewelry_id], [user_id_respond], [user_id_send], [staff_id])
+    INSERT INTO [dbo].[request_approval] ([desired_price], [is_confirm], [note], [request_time], [response_time], [state], [valuation], [product_id], [user_id_respond], [user_id_send], [staff_id])
     VALUES
 (1000000, 1, 'Nhẫn kim cương', '2024-05-01 17:30:00', '2024-05-01 17:30:00', 'ACTIVE', 1000000, 1, 1, 2, 1);

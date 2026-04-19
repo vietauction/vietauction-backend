@@ -29,9 +29,9 @@ public class Image {
             CascadeType.PERSIST, CascadeType.DETACH,
             CascadeType.MERGE, CascadeType.REFRESH
     })
-    @JoinColumn(name = "jewelry_id")
+    @JoinColumn(name = "product_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
-    private Jewelry jewelry;
+    private Product product;
 
 }

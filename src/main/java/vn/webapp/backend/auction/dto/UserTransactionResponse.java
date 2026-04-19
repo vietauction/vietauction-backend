@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserTransactionResponse  {
-    Double totalPriceJewelryWonByUsername;
+    Double totalPriceProductWonByUsername;
     Integer numberTransactionsRequest;
-    Integer totalJewelryWon;
+    Integer totalProductWon;
     Integer totalBid;
 }
