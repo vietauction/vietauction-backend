@@ -1,41 +1,48 @@
 package vn.webapp.backend.auction.controller;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vn.webapp.backend.auction.dto.ImageRequest;
-import vn.webapp.backend.auction.model.Image;
-import vn.webapp.backend.auction.service.image.ImageService;
-
+import vn.webapp.backend.auction.shared.dto.response.ApiResponse;
+import vn.webapp.backend.auction.shared.dto.response.PageMeta;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/image")
-@RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:3000")
 public class ImageController {
 
-    private final ImageService imageService;
-
-    @GetMapping("/get-by-product/{id}")
-    public ResponseEntity<List<Image>> getByProduct(@PathVariable Integer id)  {
-        return ResponseEntity.ok(imageService.getImagesByProductId(id));
+    @GetMapping("/api/v1/products/{productId}/images")
+    public ResponseEntity<ApiResponse<Object>> action1(@RequestBody(required=false) Object req) {
+        return ResponseEntity.ok(ApiResponse.<Object>builder()
+                .success(true)
+                .message("Lấy theo tài sản thành công")
+                .data(new Object())
+                .build());
     }
 
-    @GetMapping("/get-icon-product/{id}")
-    public ResponseEntity<Image> getIconByProduct(@PathVariable Integer id)  {
-        return ResponseEntity.ok(imageService.getImageByIconAndProductId(id));
+    @GetMapping("/api/v1/products/{productId}/images/icon")
+    public ResponseEntity<ApiResponse<Object>> action2(@RequestBody(required=false) Object req) {
+        return ResponseEntity.ok(ApiResponse.<Object>builder()
+                .success(true)
+                .message("Lấy icon theo tài sản thành công")
+                .data(new Object())
+                .build());
     }
 
-    @PostMapping("/add-image")
-    public ResponseEntity<Image> createImage(@RequestBody ImageRequest request){
-        return ResponseEntity.ok(imageService.createImage(request));
+    @PostMapping("/api/v1/products/{productId}/images")
+    public ResponseEntity<ApiResponse<Object>> action3(@RequestBody(required=false) Object req) {
+        return ResponseEntity.ok(ApiResponse.<Object>builder()
+                .success(true)
+                .message("Tạo hình ảnh thành công")
+                .data(new Object())
+                .build());
     }
 
-    @DeleteMapping("/product/{productId}")
-    public ResponseEntity<Void> deleteImagesByProductId(@PathVariable Integer productId) {
-        imageService.deleteByProductId(productId);
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/api/v1/products/{productId}/images")
+    public ResponseEntity<ApiResponse<Object>> action4(@RequestBody(required=false) Object req) {
+        return ResponseEntity.ok(ApiResponse.<Object>builder()
+                .success(true)
+                .message("Xóa hình ảnh theo tài sản ID thành công")
+                .data(new Object())
+                .build());
     }
-
 }

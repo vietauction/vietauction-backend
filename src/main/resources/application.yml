@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: auction
+  profiles:
+    active: dev
+  threads:
+    virtual:
+      enabled: true
+
+server:
+  port: ${PORT:8080}
+
+frontend:
+  base-url: https://website-auction-production.vercel.app
+
+application:
+  security:
+    jwt:
+      secret-key: jAkq3Mbc9Tz7X4D5Y6L8Q5C9wK8z2Gf9A6PqS5R8tV3v2O5wF8rM7U6pR4yN3T9q
+      expiration: 3600000
+      refresh-token:
+        expiration: 86400000
+
+payment:
+  vnPay:
+    url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+    tmnCode: MV56IQL8
+    secretKey: 1EU30GTJ9XXSUNDXF8E3H15HUTZVUIDA
+    returnUrl: https://auction-webapp-production.up.railway.app/api/v1/payment/vn-pay-callback
+    version: 2.1.0
+    command: pay
+    orderType: other
