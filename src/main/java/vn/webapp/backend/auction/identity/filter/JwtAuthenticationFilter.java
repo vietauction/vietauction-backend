@@ -58,17 +58,29 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 						authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 						SecurityContextHolder.getContext().setAuthentication(authToken);
 					} else {
-						response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token is expired or revoked");
+						sendErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Token is expired or revoked");
 						return;
 					}
 				} else {
-					response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
+					sendErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
 					return;
 				}
 			}
 			filterChain.doFilter(request, response);
 		} catch (ExpiredJwtException ex) {
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "JWT token is expired!");
+			sendErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "JWT token is expired!");
+		} catch (Exception ex) {
+			sendErrorResponse(response, HttpServletResponse.SC_UNAUTHORIZED, "Authentication failed: " + ex.getMessage());
 		}
+	}
+
+	private void sendErrorResponse(HttpServletResponse response, int status, String message) throws IOException {
+		response.setStatus(status);
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		String jsonResponse = String.format(
+				"{\"success\": false, \"message\": \"%s\", \"data\": null, \"meta\": null, \"errors\": null, \"timestamp\": \"%s\"}",
+				message, java.time.Instant.now().toString());
+		response.getWriter().write(jsonResponse);
 	}
 }
