@@ -1,10 +1,29 @@
-FROM maven:3.8.4-openjdk-17-slim AS build
-WORKDIR /app
-COPY . .
-RUN mvn clean package -DskipTests
+# Stage 1: Build
+# Start with a Maven image tha includes JDK 21
+FROM maven:3.9.8-amazoncorretto-21 AS build
 
-FROM openjdk:17-jdk-alpine
+
+# Copy source code and pom.xml file to /app folder
 WORKDIR /app
-COPY --from=build /app/target/*.jar /app/app.jar
-EXPOSE 8080
-CMD ["java", "-jar", "/app/app.jar"]
+COPY pom.xml .
+COPY src ./src
+
+# Build source code with maven
+RUN mvn package -DskipTests
+
+# Stage 2: create image
+# Start with Amazon Correto JDK 21
+FROM amazoncorretto:21.0.4
+
+# Set working folder to App and copy complied file from above step
+
+WORKDIR /app
+#COPY --from=build /app/target/*jar app.jar
+COPY --from=build /app/target/*-SNAPSHOT.jar app.jar
+
+# Command to run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+
+# Set working folder to App and copy complied file from above step
+LABEL authors="levanhuyhoang"
