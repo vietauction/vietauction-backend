@@ -19,7 +19,7 @@ FROM amazoncorretto:21.0.4
 
 WORKDIR /app
 #COPY --from=build /app/target/*jar app.jar
-COPY --from=build /app/target/*-SNAPSHOT.jar app.jar
+COPY --from=build /app/target/*.jar app.jar
 
 # Command to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
