@@ -34,3 +34,4 @@ build/
 
 docs/
 **/application-dev.yml
+.env.local

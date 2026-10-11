@@ -5,8 +5,8 @@
 [![CodeFactor](https://www.codefactor.io/repository/github/phuuthanh-dev/auctionwebapp_be/badge)](https://www.codefactor.io/repository/github/phuuthanh-dev/auctionwebapp_be)
 ## Requirements
 
-- JDK 17 or later
-- SQL Server 2019
+- JDK 21
+- MySQL 8-compatible database
 - Maven 3+
 
 ## How to Run
@@ -20,6 +20,20 @@ git clone https://github.com/phuuthanh2003/AuctionWebApp_BE.git
 ```bash
 cd AuctionWebApp_BE
 ```
+
+### Local backend with the VietAuction cloud database
+
+Keep database credentials only in an ignored local file:
+
+```bash
+cp .env.local.example .env.local
+# Edit .env.local with the cloud database credentials supplied to you.
+chmod 600 .env.local
+./scripts/run-dev-cloud.sh
+```
+
+The launcher runs the `dev` Spring profile while overriding its datasource with the cloud database values. `.env.local` is ignored by Git and must never be committed.
+
 - You can build the project and run the tests by running:
 ```bash
 mvn clean package
