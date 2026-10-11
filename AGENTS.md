@@ -38,7 +38,8 @@ For every task, operate as a **Senior Fullstack Developer & Frontend Architect**
 - Before coding, fetch the remote, switch to `develop`, and fast-forward it from `origin/develop`.
 - Create each short-lived task branch from the updated `develop`; use `codex/<task-name>` unless the user requests another name.
 - Use Conventional Commits and stage only files relevant to the requested task.
-- After the code is complete, push the task branch, merge it into `develop`, and push `develop`.
-- Create or update a pull request from `develop` into `master`. Do not merge that release pull request without an explicit user request or required repository approval.
+- Keep each `codex/<task-name>` branch local. Do not push it to `origin`, open a pull request from it, or use it as a remote integration branch.
+- After the code is complete, merge the local task branch into local `develop`, then push only `develop`.
+- Create or update a pull request from `develop` into `master` only when the user explicitly requests a release pull request. Do not merge into `master` without an explicit user request or required repository approval.
 - Never commit directly to `master`, force-push, bypass branch protection or weaken repository rules.
 - This is the user's standing delivery authorization for requested code tasks; it does not grant permission for direct builds or deployments.
