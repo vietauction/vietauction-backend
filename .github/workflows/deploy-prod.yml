@@ -38,17 +38,28 @@ jobs:
           password: ${{ secrets.VPS_PASSWORD }}
           port: ${{ secrets.VPS_PORT || '22' }}
           script: |
-            # Dừng và xóa container cũ
+            # 1. Dừng và xóa container cũ
             docker stop vietauction-backend || true
             docker rm vietauction-backend || true
             
-            # Xóa image cũ để pull image mới nhất
+            # 2. Xóa image cũ để ép Docker pull image mới nhất khi chạy
             docker rmi ${{ secrets.DOCKER_USERNAME }}/vietauction-backend:latest || true
             
-            # Khởi chạy container mới
+            # 3. Tạo file .env từ Github Secrets trên VPS
+            echo "DB_HOST=${{ secrets.DB_HOST }}" > .env
+            echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+            echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+            echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+            echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+            
+            # 4. Khởi chạy container mới
             docker run -d \
               --name vietauction-backend \
               -p 8080:8080 \
+              --env-file .env \
               --restart always \
               -e SPRING_PROFILES_ACTIVE=prod \
               ${{ secrets.DOCKER_USERNAME }}/vietauction-backend:latest
+            
+            # 5. Dọn dẹp file .env để bảo mật
+            rm .env
