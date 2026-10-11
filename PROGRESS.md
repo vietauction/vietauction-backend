@@ -1,5 +1,18 @@
 # Progress
 
+### 2026-10-11 — Restrict Git delivery to `develop`
+
+- Status: Complete.
+- Changes:
+  - Updated the backend delivery rules to keep `codex/*` task branches local-only.
+  - Required local merge into `develop` and push of only `develop`; release PR creation now needs explicit user direction.
+- Validation:
+  - Backend Git workflow instructions reviewed for conflicting rules.
+- Remaining limitations:
+  - Existing remote task branches and release PRs remain unchanged.
+- Next action:
+  - Use the local-branch-to-`develop` delivery workflow for future backend tasks.
+
 ### 2026-10-11 — Local backend cloud database launcher
 
 - Status: Complete.
