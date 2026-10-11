@@ -59,3 +59,17 @@
   - Real-estate, art and vehicle-specific attributes, documents and gallery assets need dedicated product contracts and approved photography before their detail screens are production-complete.
 - Next action:
   - Commit this correction, then implement the frontend catalogue adapter against the typed public API.
+
+### 2026-10-11 — Re-seed cloud development data with UTF-8
+
+- Status: Complete.
+- Changes:
+  - Created a local recovery backup, cleared the requested cloud `DB_AUCTION` dataset through `seedData.sql`, and re-imported it with an utf8mb4 MySQL client.
+  - Updated the live `product.weight` column to allow nulls, matching the existing optional Java field required by art, real-estate and vehicle seed records.
+- Validation:
+  - Re-seed validation passed: 4 users, 4 categories, 12 products, 12 auctions and 15 image records.
+  - Confirmed the seeded Vietnamese account address is stored and queried as UTF-8.
+- Remaining limitations:
+  - The current running backend process must be restarted by its authorized delivery process before it consumes any source configuration changes; the database itself is ready now.
+- Next action:
+  - Verify account and public catalogue responses through the authorized running API.
