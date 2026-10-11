@@ -12,6 +12,7 @@ public class CorsConfig implements WebMvcConfigurer {
 	private static final List<String> ALLOWED_ORIGINS = List.of(
 		"http://localhost:3000",
 		"http://localhost:3001",
+		"https://vietauction.vercel.app",
 		"https://fe-deploy-hazel.vercel.app",
 		"https://auction-webapp-production.up.railway.app",
 		"https://admin-manager-auction-production.vercel.app",
