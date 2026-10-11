@@ -32,12 +32,27 @@ jobs:
 
       - name: Deploy to VPS via SSH
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          SPRING_DATASOURCE_URL: ${{ secrets.SPRING_DATASOURCE_URL }}
+          SPRING_DATASOURCE_USERNAME: ${{ secrets.SPRING_DATASOURCE_USERNAME }}
+          SPRING_DATASOURCE_PASSWORD: ${{ secrets.SPRING_DATASOURCE_PASSWORD }}
+          MAIL_HOST: ${{ vars.MAIL_HOST || 'smtp.gmail.com' }}
+          MAIL_PORT: ${{ vars.MAIL_PORT || '587' }}
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_PASSWORD: ${{ secrets.MAIL_PASSWORD }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USERNAME }}
           password: ${{ secrets.VPS_PASSWORD }}
           port: ${{ secrets.VPS_PORT || '22' }}
+          envs: SPRING_DATASOURCE_URL,SPRING_DATASOURCE_USERNAME,SPRING_DATASOURCE_PASSWORD,MAIL_HOST,MAIL_PORT,MAIL_USERNAME,MAIL_PASSWORD
           script: |
+            test -n "$SPRING_DATASOURCE_URL"
+            test -n "$SPRING_DATASOURCE_USERNAME"
+            test -n "$SPRING_DATASOURCE_PASSWORD"
+            test -n "$MAIL_USERNAME"
+            test -n "$MAIL_PASSWORD"
+
             # Dừng và xóa container cũ
             docker stop vietauction-backend || true
             docker rm vietauction-backend || true
@@ -51,4 +66,12 @@ jobs:
               -p 8080:8080 \
               --restart always \
               -e SPRING_PROFILES_ACTIVE=prod \
+              -e SPRING_DATASOURCE_URL \
+              -e SPRING_DATASOURCE_USERNAME \
+              -e SPRING_DATASOURCE_PASSWORD \
+              -e SPRING_DATASOURCE_CONNECTION_TIMEOUT=10000 \
+              -e MAIL_HOST \
+              -e MAIL_PORT \
+              -e MAIL_USERNAME \
+              -e MAIL_PASSWORD \
               ${{ secrets.DOCKER_USERNAME }}/vietauction-backend:latest
