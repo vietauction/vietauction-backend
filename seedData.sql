@@ -1,5 +1,9 @@
 USE DB_AUCTION;
 
+-- This file must be imported as UTF-8 so Vietnamese account and catalogue text
+-- is stored as utf8mb4. It is intentionally not executed by application startup.
+SET NAMES utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE token;
 TRUNCATE TABLE auction_history;
