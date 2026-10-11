@@ -31,3 +31,18 @@
   - The frontend still consumes mock catalogue data until its adapter task is implemented.
 - Next action:
   - Add the frontend catalogue adapter and replace landing/list/detail mock reads while preserving loading, empty and error states.
+
+### 2026-10-11 — Seed public auction catalogue and categories
+
+- Status: Source complete; awaiting CI verification.
+- Changes:
+  - Extended `seedData.sql` with deterministic jewellery catalogue categories, 12 assets, local-image references, auctions across waiting/ongoing/finished/paused states, and bid history.
+  - Replaced the broken read-only product-category placeholders with typed, database-backed list and detail endpoints.
+  - Added focused tests for category mapping and the category not-found contract.
+- Validation:
+  - Maven test/build and live database execution were intentionally not run under the current no-build/no-runtime-verification instruction.
+- Remaining limitations:
+  - The seed data is development-only and must be intentionally applied to a non-production database; it is not an automatic migration.
+  - The legacy category create/delete endpoints remain placeholders and are outside the read-only catalogue scope.
+- Next action:
+  - Implement the frontend HTTP catalogue repository, then migrate the landing, list and detail reads from fixtures to the public API.
