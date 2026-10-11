@@ -60,7 +60,7 @@ public class Product {
 	@Column(name = "brand", nullable = false)
 	private String brand;
 
-	@Column(name = "weight", nullable = false)
+	@Column(name = "weight")
 	private Double weight;
 
 	@Column(name = "is_holding")

@@ -4,4 +4,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import vn.webapp.backend.auction.auction.domain.entity.AuctionHistory;
 
 public interface AuctionHistoryRepository extends JpaRepository<AuctionHistory, Integer> {
+	long countByAuction_Id(Integer auctionId);
 }
