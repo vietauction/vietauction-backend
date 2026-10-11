@@ -86,6 +86,7 @@ public class SecurityConfiguration {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
+			.cors(Customizer.withDefaults())
 			.authorizeHttpRequests(auth -> auth
 				.requestMatchers(SWAGGER_WHITELIST).permitAll()
 				.requestMatchers("/ws/**").permitAll()
