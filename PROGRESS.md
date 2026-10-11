@@ -46,3 +46,16 @@
   - The legacy category create/delete endpoints remain placeholders and are outside the read-only catalogue scope.
 - Next action:
   - Implement the frontend HTTP catalogue repository, then migrate the landing, list and detail reads from fixtures to the public API.
+
+### 2026-10-11 — Correct catalogue seed for a multi-asset platform
+
+- Status: Source complete; awaiting CI verification.
+- Changes:
+  - Reworked development catalogue seed data into the four supported platform categories: jewellery and gemstones, art and antiques, real estate, and transport vehicles.
+  - Kept material and weight optional at the persistence boundary so non-jewellery assets are not forced into a jewellery-only schema.
+- Validation:
+  - Ran `git diff --check` only. No Maven build/test, database migration, seed execution, or live API request was run.
+- Remaining limitations:
+  - Real-estate, art and vehicle-specific attributes, documents and gallery assets need dedicated product contracts and approved photography before their detail screens are production-complete.
+- Next action:
+  - Commit this correction, then implement the frontend catalogue adapter against the typed public API.
